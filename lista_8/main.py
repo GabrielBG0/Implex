@@ -24,7 +24,7 @@ def escreveDocumento(y, n, m, matris, id):
 if __name__ == '__main__':
     paths = []
 
-    for i in range(1, 27):
+    for i in range(1, 28):
         paths.append("grafos/" + str(i) + ".txt")
 
     grafos = []
