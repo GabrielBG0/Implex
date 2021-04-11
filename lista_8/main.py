@@ -2,12 +2,13 @@ import numpy as np
 
 
 class Grafo:
-    def __init__(self, x, y, n, m, content):
+    def __init__(self, x, y, n, m, content, id):
         self.x = x
         self.y = y
         self.n = n
         self.m = m
         self.content = content
+        self.id = id
 
 
 if __name__ == '__main__':
@@ -29,7 +30,9 @@ if __name__ == '__main__':
         content = []
         for string in dContent:
             content.append(string.replace("\n", ''))
-        grafos.append(Grafo(int(x), int(y), int(n), int(m), content))
+        id = path.rstrip(".tx")
+        id = id[7:]
+        grafos.append(Grafo(int(x), int(y), int(n), int(m), content, int(id)))
 
     for grafo in grafos:
         if grafo.x == 1:
@@ -68,7 +71,6 @@ if __name__ == '__main__':
                                 matris[int(b) - 1][index] = int(a)
                                 break
                 # escrever no documento
-
         elif grafo.x == 2:
             if grafo.y == 1:
                 matris = np.zeros((grafo.n, grafo.n))
@@ -77,9 +79,36 @@ if __name__ == '__main__':
                         matris[i][j] = grafo.content[i][j]
                 # escrever no documento
             elif grafo.y == 2:
-                print(y)
+                matris = np.zeros((grafo.n, grafo.m))
+                pares = []
+                for i in range(0, grafo.n):
+                    for j in range(0, grafo.n):
+                        if grafo.content[i][j] == "1":
+                            par = [i, j] if i < j else [j, i]
+                            if par not in pares:
+                                pares.append(par)
+                for i in range(grafo.m):
+                    matris[pares[i][0]][i] = 1
+                    matris[pares[i][1]][i] = 1
+                # escrever no documento
             elif grafo.y == 3:
-                print(y)
+                matris = np.zeros((grafo.n, grafo.m))
+                matris[0][0] = 1
+                pares = []
+                for i in range(0, grafo.n):
+                    for j in range(0, grafo.n):
+                        if grafo.content[i][j] == "1":
+                            pares.append([i, j])
+                for par in pares:
+                    if matris[par[0]][0] != par[0] + 1:
+                        matris[par[0]][0] = par[0] + 1
+                        matris[par[0]][1] = par[1] + 1
+                    else:
+                        for index in range(1, grafo.m):
+                            if matris[par[0]][index] == 0:
+                                matris[par[0]][index] = par[1] + 1
+                                break
+                # escrever no documento
         elif grafo.x == 3:
             if grafo.y == 1:
                 print(y)
@@ -88,4 +117,4 @@ if __name__ == '__main__':
             elif grafo.y == 3:
                 print(y)
 
-    print(grafos[0].content)
+    print("programa concluido")
